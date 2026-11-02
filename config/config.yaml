@@ -1,0 +1,105 @@
+# Configuración externa del ETL (el documento exige: "los parámetros se leen de un
+# archivo de configuración, no del código"). Las claves de API NO van aquí: se leen
+# de variables de entorno (ver .env.example).
+
+proyecto:
+  directorio_datos: data            # relativo a la raíz del proyecto
+  zona_horaria_ejecucion: America/New_York
+
+# ---------------------------------------------------------------- Activos
+# fuente: yahoo | alphavantage
+# calendario: nombre de pandas_market_calendars (NYSE, NASDAQ, 24/7, ...) o null.
+#   - con calendario: se excluyen feriados y se completan huecos de hasta `limite_ffill` días
+#   - null: solo se excluyen fines de semana y NO se completan huecos (no se evalúa completitud)
+# cierre: hora local de cierre (se usa para la métrica de oportunidad).
+activos:
+  - {ticker: SPY,  fuente: yahoo, calendario: NYSE, zona_horaria: America/New_York, cierre: "16:00"}
+  - {ticker: AAPL, fuente: yahoo, calendario: NYSE, zona_horaria: America/New_York, cierre: "16:00"}
+  - {ticker: MSFT, fuente: yahoo, calendario: NYSE, zona_horaria: America/New_York, cierre: "16:00"}
+
+# ---------------------------------------------------------------- Extracción
+extraccion:
+  # 2005 deja dentro de la muestra las crisis de 2008 y 2020 (backtesting).
+  fecha_inicio: "2005-01-01"
+  reintentos: 3
+  espera_base_segundos: 5           # espera creciente: 5, 10, 20... (tope abajo)
+  espera_maxima_segundos: 120
+  timeout_segundos: 30
+  tolerar_fallos_parciales: false   # true = continuar si falla algún activo
+
+fuentes:
+  yahoo:
+    pausa_entre_activos_segundos: 1.0
+  alphavantage:
+    # TIME_SERIES_DAILY es gratuito pero SIN ajuste por splits/dividendos;
+    # TIME_SERIES_DAILY_ADJUSTED requiere plan premium.
+    premium: false
+    outputsize: full
+    pausa_entre_llamadas_segundos: 15   # el plan gratuito limita llamadas por minuto y por día
+  fred:
+    url: https://api.stlouisfed.org/fred/series/observations
+
+# ---------------------------------------------------------------- Variables macro
+# modo "rezago": fecha disponible = fecha de la observación + rezago_dias.
+# modo "vintage": usa la fecha real de primera publicación de FRED/ALFRED
+#                 (realtime_start) + rezago_extra_dias. Es el modo más fiel (sin look-ahead).
+# Los rezagos son aproximaciones conservadoras: AJÚSTALOS según el calendario de publicación.
+macro:
+  habilitado: true            # false = solo precios (no requiere FRED_API_KEY)
+  modo: rezago
+  rezago_extra_dias: 0
+  series:
+    - {id: VIXCLS,   nombre: vix,        rezago_dias: 1}     # volatilidad implícita (S&P 500), diaria
+    - {id: DGS10,    nombre: tasa_10y,   rezago_dias: 1}     # bono del Tesoro 10 años, diaria
+    - {id: DEXCOUS,  nombre: cop_usd,    rezago_dias: 1}     # tipo de cambio COP por USD, diaria
+    - {id: FEDFUNDS, nombre: fed_funds,  rezago_dias: 35}    # mensual, fechada el día 1 del mes
+    - {id: CPIAUCSL, nombre: inflacion,  rezago_dias: 45}    # IPC mensual, publicado a mitad del mes siguiente
+
+# ---------------------------------------------------------------- Limpieza (Tabla 2)
+limpieza:
+  ventana: 60                  # ventana móvil del z-score robusto
+  min_periodos: 20
+  umbral_atipico: 8.0
+  tolerancia_reversion: 0.25   # el salto se "revierte" si |r_t + r_t+1| < tol * |r_t|
+  # Para clasificarlo como ERROR (y corregirlo) el salto revertido debe ser además desproporcionado
+  # y sin volumen disparado; si no, se conserva como atípico (p. ej. 12-13/mar/2020 en el S&P 500).
+  salto_minimo_error: 0.405    # |retorno log| >= 0.405  (~ +/-50 %)
+  factor_volumen_real: 3.0     # volumen >= 3x su mediana de 60 días => movimiento real
+  limite_ffill: 3
+  tolerancia_ohlc: 1.0e-6      # tolerancia relativa al comparar high/low/close
+
+# ---------------------------------------------------------------- Calidad (Tabla 3)
+calidad:
+  evaluar_oportunidad: false   # actívalo solo en producción (mide retraso real vs. cierre)
+  umbrales:
+    completitud_min: 0.99
+    duplicados_max: 0
+    incoherentes_max: 0
+    huecos_max_dias_habiles: 3
+    oportunidad_max_horas: 2
+    impacto_max_pct: 0.02
+  # Qué métricas detienen el flujo antes de la carga. "Impacto" es solo alerta (Tabla 3).
+  bloqueantes: [completitud, unicidad, validez, consistencia, oportunidad]
+
+# ---------------------------------------------------------------- Características
+caracteristicas:
+  medias_moviles: [20, 50, 200]
+  ventana_volatilidad: 21
+  dias_anio: 252
+  ventana_var: 250
+  niveles_var: [0.95, 0.99]
+  ventana_zscore: 252
+
+# ---------------------------------------------------------------- Carga
+carga:
+  # Se puede sobrescribir con la variable de entorno DATABASE_URL, p. ej.
+  # postgresql+psycopg2://usuario:clave@host:5432/riesgo
+  base_datos_url: sqlite:///data/riesgo.db
+
+# ---------------------------------------------------------------- Orquestación
+orquestacion:
+  # El documento programaba 22:00, pero con cierre a las 16:00 ET eso da 6 h de retraso y
+  # contradice el umbral de oportunidad (≤ 2 h, Tabla 3). Se programa 1 h 30 min tras el cierre.
+  cron: "30 17 * * 1-5"
+  zona_horaria: America/New_York
+  correo_alertas: []
