@@ -1,6 +1,9 @@
 # Configuración externa del ETL (el documento exige: "los parámetros se leen de un
 # archivo de configuración, no del código"). Las claves de API NO van aquí: se leen
 # de variables de entorno (ver .env.example).
+#
+# CUIDADO con el formato YAML en R: escribe entre comillas las horas ("16:00") y evita claves
+# llamadas y, n, yes, no, on, off (se leen como verdadero/falso).
 
 proyecto:
   directorio_datos: data            # relativo a la raíz del proyecto
@@ -8,7 +11,7 @@ proyecto:
 
 # ---------------------------------------------------------------- Activos
 # fuente: yahoo | alphavantage
-# calendario: nombre de pandas_market_calendars (NYSE, NASDAQ, 24/7, ...) o null.
+# calendario: NYSE | NASDAQ | LONDON | TSX | 24/7 | null.
 #   - con calendario: se excluyen feriados y se completan huecos de hasta `limite_ffill` días
 #   - null: solo se excluyen fines de semana y NO se completan huecos (no se evalúa completitud)
 # cierre: hora local de cierre (se usa para la métrica de oportunidad).
@@ -27,8 +30,16 @@ extraccion:
   timeout_segundos: 30
   tolerar_fallos_parciales: false   # true = continuar si falla algún activo
 
+# Cierres extraordinarios que el paquete timeDate no trae (se suman a los feriados normales).
+calendarios:
+  feriados_extra:
+    NYSE: ["2018-12-05", "2025-01-09"]   # duelo nacional (Bush, Carter)
+
 fuentes:
   yahoo:
+    # quantmod: usa el paquete quantmod (lo mantiene su comunidad y se adapta a los cambios de Yahoo).
+    # chart:    consulta directa a la API pública 'chart' de Yahoo (alternativa si quantmod falla).
+    motor: quantmod
     pausa_entre_activos_segundos: 1.0
   alphavantage:
     # TIME_SERIES_DAILY es gratuito pero SIN ajuste por splits/dividendos;
@@ -90,6 +101,43 @@ caracteristicas:
   niveles_var: [0.95, 0.99]
   ventana_zscore: 252
 
+# ---------------------------------------------------------------- Modelado predictivo
+# Pronostica a `horizonte_dias` días: (1) alta volatilidad = volatilidad realizada futura > percentil
+# `percentil_volatilidad` de su propio pasado; (2) caída abrupta = retorno acumulado <= `umbral_caida`.
+# Validación walk-forward: se entrena con el pasado y se prueba en el bloque siguiente (`paso_refit` días),
+# descartando `purga_dias` días (>= horizonte) para que no haya fuga de información.
+modelado:
+  horizonte_dias: 5
+  percentil_volatilidad: 0.90
+  umbral_caida: -0.05
+  minimo_historia_umbral: 250
+  ventana_inicial: 1260        # ~5 años de entrenamiento antes del primer bloque de prueba
+  paso_refit: 252              # se reentrena cada ~1 año
+  purga_dias: 10
+  semilla: 123
+  modelos: [logistica, bosque]
+  proporcion_validacion: 0.2
+  logistica:
+    alpha: [0, 0.5, 1]         # 0 = ridge ... 1 = lasso; se elige por devianza en validación cruzada
+  bosque:
+    arboles: 200
+    arboles_ajuste: 100
+    mtry: [3, 6]
+    min_nodo: [25, 100]
+
+# ---------------------------------------------------------------- Backtesting
+# Pruebas del VaR (Kupiec, Christoffersen, semáforo de Basilea) en toda la muestra y en cada crisis, y
+# desempeño de los modelos entrenados SOLO con datos anteriores a cada crisis. Los intervalos de confianza
+# usan bootstrap por bloques (las etiquetas a 5 días se solapan).
+backtesting:
+  niveles_var: [0.95, 0.99]
+  crisis:
+    - {nombre: "Crisis 2008", inicio: "2008-09-01", fin: "2009-06-30"}
+    - {nombre: "COVID-19",    inicio: "2020-02-19", fin: "2020-06-30"}
+  remuestreos: 500
+  bloque_bootstrap: 21
+  semilla: 123
+
 # ---------------------------------------------------------------- Carga
 carga:
   # Se puede sobrescribir con la variable de entorno DATABASE_URL, p. ej.
@@ -98,8 +146,8 @@ carga:
 
 # ---------------------------------------------------------------- Orquestación
 orquestacion:
-  # El documento programaba 22:00, pero con cierre a las 16:00 ET eso da 6 h de retraso y
+  # En R no se usa Airflow (es de Python): el flujo se programa con el Programador de tareas de
+  # Windows o con cron, ejecutando `Rscript pipeline.R` (ver README). El documento programaba 22:00, pero con cierre a las 16:00 ET eso da 6 h de retraso y
   # contradice el umbral de oportunidad (≤ 2 h, Tabla 3). Se programa 1 h 30 min tras el cierre.
   cron: "30 17 * * 1-5"
   zona_horaria: America/New_York
-  correo_alertas: []

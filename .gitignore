@@ -1,6 +1,6 @@
 .env
 data/
-__pycache__/
-.pytest_cache/
-*.pyc
-.venv/
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
