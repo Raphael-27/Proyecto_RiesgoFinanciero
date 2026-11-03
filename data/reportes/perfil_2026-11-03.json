@@ -1,0 +1,146 @@
+{
+  "SPY": {
+    "ticker": "SPY",
+    "filas": 5493,
+    "fechas_invalidas": 0,
+    "valores_no_numericos": 0,
+    "completitud_columnas": {
+      "open": 1,
+      "high": 1,
+      "low": 1,
+      "close": 1,
+      "adj_close": 1,
+      "volume": 1
+    },
+    "fechas_duplicadas": 0,
+    "rangos": {
+      "adj_close": {
+        "min": 49.5575103759766,
+        "p01": 61.3619334411622,
+        "p50": 173.702194213867,
+        "p99": 760.527492675781,
+        "max": 779.090026855469,
+        "std": 180.368005402863
+      },
+      "volume": {
+        "min": 15270000,
+        "p01": 32793120,
+        "p50": 90509100,
+        "p99": 472014732,
+        "max": 871026300,
+        "std": 89313799.0713096
+      },
+      "retorno_log": {
+        "min": -0.115886812228972,
+        "p01": -0.0350335642457311,
+        "p50": 0.00070630645677916,
+        "p99": 0.030560815215142,
+        "max": 0.135577098380159,
+        "std": 0.0118869575310371
+      }
+    },
+    "cobertura": {
+      "inicio": "2005-01-03",
+      "fin": "2026-11-02",
+      "dias_recibidos": 5493,
+      "dias_habiles_esperados": 5493
+    },
+    "frecuencia": "diaria"
+  },
+  "AAPL": {
+    "ticker": "AAPL",
+    "filas": 5493,
+    "fechas_invalidas": 0,
+    "valores_no_numericos": 0,
+    "completitud_columnas": {
+      "open": 1,
+      "high": 1,
+      "low": 1,
+      "close": 1,
+      "adj_close": 1,
+      "volume": 1
+    },
+    "fechas_duplicadas": 0,
+    "rangos": {
+      "adj_close": {
+        "min": 0.94649064540863,
+        "p01": 1.118129529953,
+        "p50": 25.2730808258057,
+        "p99": 317.249636230469,
+        "max": 348.910003662109,
+        "std": 84.470958742199
+      },
+      "volume": {
+        "min": 17910600,
+        "p01": 33109416,
+        "p50": 187630000,
+        "p99": 1771913696,
+        "max": 3372969600,
+        "std": 390179915.145778
+      },
+      "retorno_log": {
+        "min": -0.19746994126065,
+        "p01": -0.056034782920843,
+        "p50": 0.00110828959083631,
+        "p99": 0.0571914647467865,
+        "max": 0.142617340887547,
+        "std": 0.0201173493793958
+      }
+    },
+    "cobertura": {
+      "inicio": "2005-01-03",
+      "fin": "2026-11-02",
+      "dias_recibidos": 5493,
+      "dias_habiles_esperados": 5493
+    },
+    "frecuencia": "diaria"
+  },
+  "MSFT": {
+    "ticker": "MSFT",
+    "filas": 5493,
+    "fechas_invalidas": 0,
+    "valores_no_numericos": 0,
+    "completitud_columnas": {
+      "open": 1,
+      "high": 1,
+      "low": 1,
+      "close": 1,
+      "adj_close": 1,
+      "volume": 1
+    },
+    "fechas_duplicadas": 0,
+    "rangos": {
+      "adj_close": {
+        "min": 11.0683250427246,
+        "p01": 13.8220647048951,
+        "p50": 44.3514595031738,
+        "p99": 512.590876464844,
+        "max": 543.450012207031,
+        "std": 148.830363138543
+      },
+      "volume": {
+        "min": 5855900,
+        "p01": 13615488,
+        "p50": 35096500,
+        "p99": 137936928,
+        "max": 591052200,
+        "std": 27797181.5008665
+      },
+      "retorno_log": {
+        "min": -0.159453232838461,
+        "p01": -0.0449157049791872,
+        "p50": 0.000457031190991719,
+        "p99": 0.0459235842285741,
+        "max": 0.170625979220706,
+        "std": 0.0171901058690553
+      }
+    },
+    "cobertura": {
+      "inicio": "2005-01-03",
+      "fin": "2026-11-02",
+      "dias_recibidos": 5493,
+      "dias_habiles_esperados": 5493
+    },
+    "frecuencia": "diaria"
+  }
+}

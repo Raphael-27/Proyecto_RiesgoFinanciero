@@ -1,0 +1,170 @@
+{
+  "SPY": [
+    {
+      "dimension": "completitud",
+      "metrica": "pct_dias_con_cierre_valido",
+      "valor": 1,
+      "umbral": 0.99,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "unicidad",
+      "metrica": "fechas_duplicadas",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "validez",
+      "metrica": "registros_incoherentes_ohlc",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "consistencia",
+      "metrica": "fechas_fuera_de_orden_o_huecos_largos",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": "fuera_de_orden=0, huecos>3d=0"
+    },
+    {
+      "dimension": "oportunidad",
+      "metrica": "horas_desde_cierre_hasta_dato_limpio",
+      "valor": null,
+      "umbral": 2,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "No evaluada (calidad.evaluar_oportunidad = false)"
+    },
+    {
+      "dimension": "impacto_limpieza",
+      "metrica": "pct_filas_modificadas_o_descartadas",
+      "valor": 0,
+      "umbral": 0.02,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "Alerta si supera el umbral"
+    }
+  ],
+  "AAPL": [
+    {
+      "dimension": "completitud",
+      "metrica": "pct_dias_con_cierre_valido",
+      "valor": 1,
+      "umbral": 0.99,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "unicidad",
+      "metrica": "fechas_duplicadas",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "validez",
+      "metrica": "registros_incoherentes_ohlc",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "consistencia",
+      "metrica": "fechas_fuera_de_orden_o_huecos_largos",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": "fuera_de_orden=0, huecos>3d=0"
+    },
+    {
+      "dimension": "oportunidad",
+      "metrica": "horas_desde_cierre_hasta_dato_limpio",
+      "valor": null,
+      "umbral": 2,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "No evaluada (calidad.evaluar_oportunidad = false)"
+    },
+    {
+      "dimension": "impacto_limpieza",
+      "metrica": "pct_filas_modificadas_o_descartadas",
+      "valor": 0,
+      "umbral": 0.02,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "Alerta si supera el umbral"
+    }
+  ],
+  "MSFT": [
+    {
+      "dimension": "completitud",
+      "metrica": "pct_dias_con_cierre_valido",
+      "valor": 1,
+      "umbral": 0.99,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "unicidad",
+      "metrica": "fechas_duplicadas",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "validez",
+      "metrica": "registros_incoherentes_ohlc",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": ""
+    },
+    {
+      "dimension": "consistencia",
+      "metrica": "fechas_fuera_de_orden_o_huecos_largos",
+      "valor": 0,
+      "umbral": 0,
+      "cumple": true,
+      "bloqueante": true,
+      "detalle": "fuera_de_orden=0, huecos>3d=0"
+    },
+    {
+      "dimension": "oportunidad",
+      "metrica": "horas_desde_cierre_hasta_dato_limpio",
+      "valor": null,
+      "umbral": 2,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "No evaluada (calidad.evaluar_oportunidad = false)"
+    },
+    {
+      "dimension": "impacto_limpieza",
+      "metrica": "pct_filas_modificadas_o_descartadas",
+      "valor": 0,
+      "umbral": 0.02,
+      "cumple": true,
+      "bloqueante": false,
+      "detalle": "Alerta si supera el umbral"
+    }
+  ]
+}

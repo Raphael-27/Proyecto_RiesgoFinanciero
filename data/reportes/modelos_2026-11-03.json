@@ -1,0 +1,169 @@
+{
+  "parametros": {
+    "horizonte_dias": 5,
+    "percentil_volatilidad": 0.9,
+    "umbral_caida": -0.05,
+    "minimo_historia_umbral": 250,
+    "ventana_inicial": 1260,
+    "paso_refit": 252,
+    "purga_dias": 10,
+    "semilla": 123,
+    "modelos": ["logistica", "bosque"],
+    "proporcion_validacion": 0.2,
+    "logistica": {
+      "alpha": [0, 0.5, 1]
+    },
+    "bosque": {
+      "arboles": 200,
+      "arboles_ajuste": 100,
+      "mtry": [3, 6],
+      "min_nodo": [25, 100]
+    }
+  },
+  "importancias": {
+    "SPY": {
+      "y_vol_alta/logistica": {
+        "vol_rel_21": 0.2669,
+        "vol_hist_21": 0.243,
+        "volumen_z": 0.0955,
+        "dist_ma_200": 0.0917,
+        "es_hist_95": 0.0764,
+        "vol_5d": 0.0596,
+        "dist_ma_20": 0.0554,
+        "retorno_z": 0.0401,
+        "ratio_vol_5_21": 0.0375,
+        "var_hist_95": 0.034
+      },
+      "y_vol_alta/bosque": {
+        "vol_rel_21": 0.1741,
+        "vol_rel_5": 0.1336,
+        "dist_ma_200": 0.1265,
+        "dd_60": 0.105,
+        "dist_ma_50": 0.095,
+        "vol_hist_21": 0.0833,
+        "dist_ma_20": 0.081,
+        "vol_5d": 0.0746,
+        "volumen_z": 0.0696,
+        "ret_21d": 0.0573
+      },
+      "y_caida/logistica": {
+        "dist_ma_200": 0.5542,
+        "volumen_z": 0.2303,
+        "vol_5d": 0.1718,
+        "es_atipico": 0.0269,
+        "ret_5d": 0.0093,
+        "vol_hist_21": 0.0075
+      },
+      "y_caida/bosque": {
+        "vol_5d": 0.1465,
+        "dist_ma_200": 0.1457,
+        "vol_hist_21": 0.1258,
+        "vol_rel_5": 0.1078,
+        "dd_60": 0.1005,
+        "vol_rel_21": 0.0834,
+        "dist_ma_50": 0.0831,
+        "volumen_z": 0.0726,
+        "retorno_z": 0.0703,
+        "ratio_vol_5_21": 0.0644
+      }
+    },
+    "AAPL": {
+      "y_vol_alta/logistica": {
+        "dd_60": 0.2253,
+        "volumen_z": 0.2105,
+        "dist_ma_20": 0.1466,
+        "dist_ma_200": 0.1289,
+        "vol_rel_21": 0.1144,
+        "vol_rel_5": 0.0867,
+        "es_hist_95": 0.0713,
+        "es_atipico": 0.0162
+      },
+      "y_vol_alta/bosque": {
+        "dist_ma_50": 0.1377,
+        "vol_hist_21": 0.1171,
+        "dd_60": 0.1136,
+        "vol_rel_5": 0.1118,
+        "dist_ma_20": 0.0996,
+        "vol_5d": 0.0922,
+        "dist_ma_200": 0.0875,
+        "vol_rel_21": 0.0854,
+        "ret_21d": 0.0827,
+        "volumen_z": 0.0726
+      },
+      "y_caida/logistica": {
+        "vol_hist_21": 0.1412,
+        "var_hist_95": 0.1372,
+        "vol_rel_21": 0.1311,
+        "vol_rel_5": 0.1255,
+        "vol_5d": 0.1185,
+        "dd_60": 0.0956,
+        "ret_21d": 0.0715,
+        "volumen_z": 0.0653,
+        "dist_ma_50": 0.0607,
+        "dist_ma_200": 0.0534
+      },
+      "y_caida/bosque": {
+        "dist_ma_200": 0.1326,
+        "vol_rel_21": 0.1264,
+        "vol_hist_21": 0.1161,
+        "es_hist_95": 0.0995,
+        "var_hist_95": 0.0927,
+        "dist_ma_20": 0.0921,
+        "vol_rel_5": 0.091,
+        "vol_5d": 0.0838,
+        "dist_ma_50": 0.0835,
+        "ret_21d": 0.0825
+      }
+    },
+    "MSFT": {
+      "y_vol_alta/logistica": {
+        "vol_rel_21": 0.3082,
+        "vol_hist_21": 0.2375,
+        "var_hist_95": 0.1117,
+        "vol_rel_5": 0.0956,
+        "volumen_z": 0.0943,
+        "dd_60": 0.0661,
+        "dist_ma_200": 0.0483,
+        "dist_ma_20": 0.014,
+        "ratio_vol_5_21": 0.0138,
+        "es_atipico": 0.0105
+      },
+      "y_vol_alta/bosque": {
+        "vol_rel_21": 0.1749,
+        "vol_rel_5": 0.135,
+        "dd_60": 0.1192,
+        "vol_hist_21": 0.1053,
+        "dist_ma_200": 0.1034,
+        "vol_5d": 0.0851,
+        "var_hist_95": 0.0817,
+        "es_hist_95": 0.071,
+        "volumen_z": 0.0626,
+        "dist_ma_50": 0.0619
+      },
+      "y_caida/logistica": {
+        "var_hist_95": 0.1778,
+        "dist_ma_200": 0.1593,
+        "es_hist_95": 0.1125,
+        "ret_5d": 0.0975,
+        "vol_hist_21": 0.0959,
+        "volumen_z": 0.0876,
+        "dist_ma_20": 0.0725,
+        "vol_5d": 0.0706,
+        "es_atipico": 0.0658,
+        "retorno_z": 0.0606
+      },
+      "y_caida/bosque": {
+        "dist_ma_200": 0.1465,
+        "vol_rel_21": 0.114,
+        "vol_hist_21": 0.1104,
+        "var_hist_95": 0.1079,
+        "vol_5d": 0.0972,
+        "vol_rel_5": 0.0928,
+        "es_hist_95": 0.0925,
+        "ret_5d": 0.0874,
+        "dist_ma_50": 0.0779,
+        "volumen_z": 0.0734
+      }
+    }
+  }
+}

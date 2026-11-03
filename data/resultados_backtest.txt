@@ -1,0 +1,153 @@
+
+== 1. Backtesting del VaR ==
+Un VaR al 99% debe ser superado ~1% de los días y sin agruparse. 'RECHAZADO' = p < 0.05 en la prueba conjunta.
+
+ activo    metodo nivel         periodo dias violaciones observada esperada
+    SPY historico   95% Toda la muestra 5242         285      5.4%     5.0%
+    SPY historico   95%     Crisis 2008  209          22     10.5%     5.0%
+    SPY historico   95%        COVID-19   93          16     17.2%     5.0%
+    SPY historico   99% Toda la muestra 5242          89      1.7%     1.0%
+    SPY historico   99%     Crisis 2008  209          11      5.3%     1.0%
+    SPY historico   99%        COVID-19   93           8      8.6%     1.0%
+   AAPL historico   95% Toda la muestra 5242         296      5.6%     5.0%
+   AAPL historico   95%     Crisis 2008  209          13      6.2%     5.0%
+   AAPL historico   95%        COVID-19   93          14     15.1%     5.0%
+   AAPL historico   99% Toda la muestra 5242          81      1.5%     1.0%
+   AAPL historico   99%     Crisis 2008  209           4      1.9%     1.0%
+   AAPL historico   99%        COVID-19   93           5      5.4%     1.0%
+   MSFT historico   95% Toda la muestra 5242         316      6.0%     5.0%
+   MSFT historico   95%     Crisis 2008  209          20      9.6%     5.0%
+   MSFT historico   95%        COVID-19   93          16     17.2%     5.0%
+   MSFT historico   99% Toda la muestra 5242          90      1.7%     1.0%
+   MSFT historico   99%     Crisis 2008  209           7      3.3%     1.0%
+   MSFT historico   99%        COVID-19   93           7      7.5%     1.0%
+ p Kupiec p indep. resultado semaforo Basilea
+    0.152   <0.001 RECHAZADO                -
+    0.001    0.078 RECHAZADO                -
+   <0.001    0.395 RECHAZADO                -
+   <0.001   <0.001 RECHAZADO             roja
+   <0.001    0.595 RECHAZADO                -
+   <0.001    0.144 RECHAZADO                -
+    0.035   <0.001 RECHAZADO                -
+    0.435    0.830        ok                -
+   <0.001    0.499 RECHAZADO                -
+   <0.001    0.813 RECHAZADO         amarilla
+    0.238    0.692        ok                -
+    0.003    0.448 RECHAZADO                -
+   <0.001   <0.001 RECHAZADO                -
+    0.007    0.006 RECHAZADO                -
+   <0.001    0.395 RECHAZADO                -
+   <0.001    0.290 RECHAZADO             roja
+    0.007    0.485 RECHAZADO                -
+   <0.001    0.529 RECHAZADO                -
+
+== 2. Modelos entrenados ANTES de cada crisis ==
+'base' = regla sencilla. Habilidad = mejora del Brier sobre la frecuencia aprendida antes de la crisis.
+Anticipacion = dias entre la primera alerta y el peor dia (retorno a 5 dias) de la ventana.
+
+ activo      crisis           evento    modelo entrenado_con dias   AUC
+    SPY Crisis 2008 Alta volatilidad logistica           658  209 0.865
+    SPY Crisis 2008 Alta volatilidad    bosque           658  209 0.849
+    SPY Crisis 2008 Alta volatilidad      base           658  209 0.774
+    SPY Crisis 2008    Caída abrupta logistica           912  209 0.500
+    SPY Crisis 2008    Caída abrupta    bosque           912  209 0.500
+    SPY Crisis 2008    Caída abrupta      base           912  209 0.311
+    SPY    COVID-19 Alta volatilidad logistica          3543   93 0.802
+    SPY    COVID-19 Alta volatilidad    bosque          3543   93 0.803
+    SPY    COVID-19 Alta volatilidad      base          3543   93 0.720
+    SPY    COVID-19    Caída abrupta logistica          3797   93 0.555
+    SPY    COVID-19    Caída abrupta    bosque          3797   93 0.578
+    SPY    COVID-19    Caída abrupta      base          3797   93 0.055
+   AAPL Crisis 2008 Alta volatilidad logistica           658  209 0.951
+   AAPL Crisis 2008 Alta volatilidad    bosque           658  209 0.919
+   AAPL Crisis 2008 Alta volatilidad      base           658  209 0.819
+   AAPL Crisis 2008    Caída abrupta logistica           912  209 0.606
+   AAPL Crisis 2008    Caída abrupta    bosque           912  209 0.500
+   AAPL Crisis 2008    Caída abrupta      base           912  209 0.421
+   AAPL    COVID-19 Alta volatilidad logistica          3543   93 0.873
+   AAPL    COVID-19 Alta volatilidad    bosque          3543   93 0.857
+   AAPL    COVID-19 Alta volatilidad      base          3543   93 0.776
+   AAPL    COVID-19    Caída abrupta logistica          3797   93 0.756
+   AAPL    COVID-19    Caída abrupta    bosque          3797   93 0.598
+   AAPL    COVID-19    Caída abrupta      base          3797   93 0.123
+   MSFT Crisis 2008 Alta volatilidad logistica           658  209 0.735
+   MSFT Crisis 2008 Alta volatilidad    bosque           658  209 0.500
+   MSFT Crisis 2008 Alta volatilidad      base           658  209 0.683
+   MSFT Crisis 2008    Caída abrupta logistica           912  209 0.594
+   MSFT Crisis 2008    Caída abrupta    bosque           912  209 0.500
+   MSFT Crisis 2008    Caída abrupta      base           912  209 0.416
+   MSFT    COVID-19 Alta volatilidad logistica          3543   93 0.852
+   MSFT    COVID-19 Alta volatilidad    bosque          3543   93 0.865
+   MSFT    COVID-19 Alta volatilidad      base          3543   93 0.791
+   MSFT    COVID-19    Caída abrupta logistica          3797   93 0.511
+   MSFT    COVID-19    Caída abrupta    bosque          3797   93 0.648
+   MSFT    COVID-19    Caída abrupta      base          3797   93 0.053
+ habilidad alertas precision exhaustividad primera alerta anticipacion
+      +55%     129      0.81          0.85     2008-09-04           29
+      +12%       2      1.00          0.02     2008-09-09           24
+         -     209      0.59          1.00     2008-09-02           31
+       +0%       0        NA          0.00        ninguna           NA
+       +0%       0        NA          0.00        ninguna           NA
+         -     209      0.18          1.00     2008-09-02           31
+      +63%      66      0.67          0.80     2020-02-24           10
+      +48%      47      0.85          0.73     2020-02-25            9
+         -      70      0.61          0.78     2020-03-02            3
+       +1%      27      0.19          0.42     2020-02-28            6
+       +3%      76      0.12          0.75     2020-02-24           10
+         -      73      0.00          0.00     2020-03-18          -13
+      +29%      44      0.95          0.67     2008-09-16           10
+      +10%      37      0.95          0.56     2008-09-17            9
+         -     103      0.48          0.78     2008-09-19            7
+       +7%      70      0.40          0.50     2008-09-17            9
+       +4%       0        NA          0.00        ninguna           NA
+         -     209      0.27          1.00     2008-09-02           24
+      +63%      34      0.85          0.83     2020-02-25           17
+      +12%      32      0.84          0.77     2020-02-24           18
+         -      48      0.56          0.77     2020-02-27           15
+       +7%      39      0.26          0.77     2020-02-24           18
+       +0%      71      0.14          0.77     2020-02-26           16
+         -      40      0.03          0.08     2020-04-01          -19
+      +36%     201      0.53          0.98     2008-09-04           29
+      +18%       0        NA          0.00        ninguna           NA
+         -     173      0.59          0.94     2008-09-16           17
+       +5%      47      0.34          0.36     2008-10-13          -10
+      +11%       0        NA          0.00        ninguna           NA
+         -     209      0.22          1.00     2008-09-02           31
+      +51%      36      0.86          0.63     2020-02-24           10
+      +46%      50      0.86          0.88     2020-02-21           13
+         -      75      0.57          0.88     2020-02-21           13
+      -45%      54      0.13          0.70     2020-02-28            6
+       -0%      31      0.13          0.40     2020-03-04            1
+         -      50      0.00          0.00     2020-04-21          -47
+
+== 3. Incertidumbre: ¿el modelo supera de verdad a la regla base? (bootstrap por bloques, IC 95%) ==
+ activo           evento    modelo                  AUC AUC base
+    SPY Alta volatilidad logistica 0.862 [0.802, 0.916]    0.834
+    SPY Alta volatilidad    bosque 0.785 [0.700, 0.856]    0.834
+    SPY    Caída abrupta logistica 0.724 [0.626, 0.817]    0.557
+    SPY    Caída abrupta    bosque 0.560 [0.431, 0.663]    0.557
+   AAPL Alta volatilidad logistica 0.808 [0.733, 0.866]    0.758
+   AAPL Alta volatilidad    bosque 0.671 [0.552, 0.758]    0.758
+   AAPL    Caída abrupta logistica 0.594 [0.533, 0.656]    0.528
+   AAPL    Caída abrupta    bosque 0.535 [0.474, 0.596]    0.528
+   MSFT Alta volatilidad logistica 0.731 [0.661, 0.797]    0.706
+   MSFT Alta volatilidad    bosque 0.709 [0.637, 0.776]    0.706
+   MSFT    Caída abrupta logistica 0.652 [0.587, 0.711]    0.553
+   MSFT    Caída abrupta    bosque 0.551 [0.473, 0.623]    0.553
+              AUC - base       habilidad Brier supera a la base habilidad real
+   0.029 [-0.003, 0.061] +27.5% [+12.6, +42.6]               no             SI
+  -0.049 [-0.106, 0.001]  +13.6% [+3.4, +23.2]               no             SI
+    0.167 [0.078, 0.236]    +0.8% [-2.8, +3.2]               SI             no
+   0.002 [-0.126, 0.095]    -0.6% [-2.7, +0.6]               no             no
+    0.050 [0.011, 0.095]  +14.7% [+2.0, +27.5]               SI             SI
+ -0.086 [-0.166, -0.023]    +3.8% [-3.3, +8.8]               no             no
+    0.066 [0.006, 0.141]    -0.2% [-2.7, +1.7]               SI             no
+   0.008 [-0.056, 0.073]    -0.1% [-1.6, +1.0]               no             no
+   0.024 [-0.002, 0.054]  +11.2% [+2.2, +21.0]               no             SI
+   0.003 [-0.047, 0.054]   +7.6% [-2.7, +17.2]               no             no
+    0.099 [0.021, 0.176]    -1.3% [-7.2, +1.5]               SI             no
+  -0.002 [-0.107, 0.089]    -0.3% [-2.2, +1.2]               no             no
+
+'supera a la base' = el IC de la diferencia de AUC queda por encima de 0. 'habilidad real' = el IC de la habilidad de Brier queda por encima de 0.
+
+Graficas: data/graficas/backtest_var_*.png y backtest_crisis_*.png

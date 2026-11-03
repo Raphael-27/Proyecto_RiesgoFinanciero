@@ -1,0 +1,59 @@
+{
+  "activos": {
+    "SPY": {
+      "ticker": "SPY",
+      "fuente": "yahoo",
+      "filas_entrada": 5493,
+      "fechas_invalidas": 0,
+      "valores_no_numericos": 0,
+      "duplicados": 0,
+      "no_habiles": 0,
+      "incoherentes": 0,
+      "dias_completados": 0,
+      "atipicos": 9,
+      "errores_dato": 0,
+      "filas_sin_precio": 0,
+      "rellenadas": 0,
+      "filas_salida": 5493,
+      "filas_modificadas": 0,
+      "pct_modificadas": 0
+    },
+    "AAPL": {
+      "ticker": "AAPL",
+      "fuente": "yahoo",
+      "filas_entrada": 5493,
+      "fechas_invalidas": 0,
+      "valores_no_numericos": 0,
+      "duplicados": 0,
+      "no_habiles": 0,
+      "incoherentes": 0,
+      "dias_completados": 0,
+      "atipicos": 2,
+      "errores_dato": 0,
+      "filas_sin_precio": 0,
+      "rellenadas": 0,
+      "filas_salida": 5493,
+      "filas_modificadas": 0,
+      "pct_modificadas": 0
+    },
+    "MSFT": {
+      "ticker": "MSFT",
+      "fuente": "yahoo",
+      "filas_entrada": 5493,
+      "fechas_invalidas": 0,
+      "valores_no_numericos": 0,
+      "duplicados": 0,
+      "no_habiles": 0,
+      "incoherentes": 0,
+      "dias_completados": 0,
+      "atipicos": 7,
+      "errores_dato": 0,
+      "filas_sin_precio": 0,
+      "rellenadas": 0,
+      "filas_salida": 5493,
+      "filas_modificadas": 0,
+      "pct_modificadas": 0
+    }
+  },
+  "macro": []
+}
